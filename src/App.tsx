@@ -1,10 +1,13 @@
-
+import LoginForm from "./AuthComponents/LoginForm"
 
 export default function App(){
 
 return(
   <>
-  <p>Hello MF</p>
+     <section>
+          <div>Auth App</div>
+           <LoginForm/>
+     </section>
   </>
 )
 
