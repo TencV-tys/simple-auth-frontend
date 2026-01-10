@@ -2,7 +2,7 @@ import {useState} from 'react';
 
 import type { LoginDatas } from '../types/auth';
 
-import { AuthService } from '../services/AuthService';
+import { AuthService } from '../services/authService';
 export function useLoginForm(){
     
     const [formData,setFormData] = useState<LoginDatas>({

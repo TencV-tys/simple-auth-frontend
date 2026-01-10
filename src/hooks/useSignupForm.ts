@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { SignUpDatas } from "../types/auth";
-import { AuthService } from "../services/AuthService";
+import { AuthService } from "../services/authService";
 export function useSignupForm(){
      
     const [formData, setFormData] = useState<SignUpDatas>({
