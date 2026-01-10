@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useSignupForm } from '../hooks/useSignupForm'; 
 
 export default function SignUpForm(){
@@ -10,18 +10,13 @@ export default function SignUpForm(){
         handleSubmit
     } = useSignupForm();
 
-    const handleFormSubmit = async(e:React.FormEvent)=>{
-        e.preventDefault();
-
-        const result = await handleSubmit(e);
-
-
-    }
+    
 
     return(
         <div>
             
             <h1>Sign Up</h1>
+            <form onSubmit={handleSubmit}>
             <div>
             <input
               type='text'
@@ -65,6 +60,8 @@ export default function SignUpForm(){
              >
               {loading? 'Creating Account...' : 'Sign Up'}
              </button>
+
+             </form>
         </div>
     )
 

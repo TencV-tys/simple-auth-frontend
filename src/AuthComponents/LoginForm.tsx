@@ -1,29 +1,15 @@
-import React,{useState} from 'react';
+import {useLoginForm} from '../hooks/useLoginForm';
 
-import type { LoginDatas } from '../types/auth';
+export default function LoginForm(){
 
-
-const LoginForm: React.FC = ()=>{
-
-const [formData, setFormData] = useState<LoginDatas>({
-    email:'',
-    password:''
-});
-
-const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
-  const {name,value} = e.target;
-  setFormData(prev=>({
-      ...prev,
-      [name]:value,
-  }));
-
-}
+const {
+   formData,
+   loading,
+   handleChange,
+   handleSubmit
+} = useLoginForm();
 
 
-const handleSubmit = (e:React.FormEvent)=> {
-       e.preventDefault();
-
-}
 
 
 return(
@@ -48,8 +34,9 @@ return(
 
                <button 
                  type='submit'
+                 disabled={loading}
                >
-                  Login
+                  {loading? 'Logging in...':'Login'}
                </button>
          </form>
     </div>
@@ -61,4 +48,3 @@ return(
 }
 
 
-export default LoginForm;

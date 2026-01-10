@@ -10,7 +10,7 @@ export function useSignupForm(){
         confirmPassword:''
     });
 
-     const [laoding, setLoading] = useState(false);
+     const [loading, setLoading] = useState(false);
         
      const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
         const {name,value}= e.target;
@@ -27,7 +27,7 @@ export function useSignupForm(){
          try{
              console.log('');
          }catch(e){
-           console.error(e);
+           console.error(e); 
          }
 
       }
@@ -35,7 +35,7 @@ export function useSignupForm(){
 
       return {
         formData,
-        laoding,
+        loading,
         handleChange,
         handleSubmit
       }
