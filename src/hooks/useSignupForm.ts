@@ -1,16 +1,17 @@
 import { useState } from "react";
 import type { SignUpDatas } from "../types/auth";
-
+import { AuthService } from "../services/AuthService";
 export function useSignupForm(){
      
     const [formData, setFormData] = useState<SignUpDatas>({
         name:'',
         email:"",
-        password:'',
+        password:'', 
         confirmPassword:''
     });
-
-     const [loading, setLoading] = useState(false);
+      
+    const [message,setMessage] = useState<string>('');
+     const [loading, setLoading] = useState<boolean>(false);
         
      const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
         const {name,value}= e.target;
@@ -23,9 +24,17 @@ export function useSignupForm(){
       const handleSubmit = async (e:React.FormEvent)=>{
         e.preventDefault();
          setLoading(true);
-
+          setMessage(''); 
          try{
-             console.log('');
+             const result = await AuthService.signup(formData);
+            
+             if(!result.success){
+              setMessage(`${result.message}`);
+              setLoading(false);
+             }else{
+              setMessage(`${result.message}`);
+             }
+
          }catch(e){
            console.error(e); 
          }
@@ -36,6 +45,7 @@ export function useSignupForm(){
       return {
         formData,
         loading,
+        message,
         handleChange,
         handleSubmit
       }

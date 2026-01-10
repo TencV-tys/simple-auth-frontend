@@ -6,6 +6,7 @@ export default function SignUpForm(){
     const {
         formData,
         loading,
+        message,
         handleChange,
         handleSubmit
     } = useSignupForm();
@@ -49,6 +50,7 @@ export default function SignUpForm(){
                 <input
                   type='password'
                   name='confirmPassword'
+                  onChange={handleChange}
                   value={formData.confirmPassword}
                   placeholder='Confirm password'
 
@@ -62,6 +64,8 @@ export default function SignUpForm(){
              </button>
 
              </form>
+
+             {message? <p>{message}</p>:''}
         </div>
     )
 

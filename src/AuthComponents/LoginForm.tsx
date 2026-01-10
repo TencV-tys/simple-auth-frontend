@@ -5,6 +5,7 @@ export default function LoginForm(){
 const {
    formData,
    loading,
+   message,
    handleChange,
    handleSubmit
 } = useLoginForm();
@@ -39,6 +40,7 @@ return(
                   {loading? 'Logging in...':'Login'}
                </button>
          </form>
+         {message? <p>{message}</p>:''}
     </div>
 )
 
