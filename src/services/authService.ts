@@ -21,7 +21,7 @@ export class AuthService{
                  });
                  
                  const result = await response.json();
-
+                
                  return result;
 
 
@@ -73,9 +73,40 @@ export class AuthService{
                 message:"Cannot connect to the server"
             }
            }
-            
-
+             
+ 
        }
+
+        static async logout(){
+               try{
+                   const response = await fetch(`${API_URL}/logout`,{
+                    method:"POST",
+                    credentials:'include'
+                   });
+              if(response.ok){
+               
+                    return{
+                        success:true,
+                        message:"Logged out successfully"
+                    }
+
+           
+              }
+                const result = await response.json();
+
+                return{
+                    success:false,
+                    message:result.message || 'Logout failed'
+                }
+
+               }catch(e:unknown){
+                      console.error('Logout error:', e);
+       return {
+      success: false,
+      message: 'Network error during logout'
+    };
+               }
+       } 
 
 
 

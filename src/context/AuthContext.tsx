@@ -18,7 +18,7 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
       useEffect(()=>{
         checkAuth();
       },[]);
-
+ 
            const checkAuth = async ()=>{
 
             try{
@@ -28,7 +28,16 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
                 
                 if(response.ok){
                 const userData = await response.json();
-                setUser(userData);
+                 
+                if(userData.success && userData.user){
+                    setUser(userData.user);
+                }else{
+                    setUser(null);
+                }
+
+
+                }else{
+                    setUser(null);
                 }
                 
             }catch(e){
@@ -49,13 +58,37 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
             }else{
                 throw new Error(result.message);
             }
+               
+            await checkAuth();
+           };
 
-           }
-
-           const logout = async ()=>{ 
-            await AuthService.logout();
-            setUser(null);
-           }
+const logout = async () => { 
+  try {
+    setLoading(true); // Show loading
+    
+    // Optional: Show "Logging out..." message
+    // setMessage('Logging out...');
+    
+    const result = await AuthService.logout();
+    
+    if (result.success) {
+      // Delay for UX before clearing state
+      setTimeout(() => {
+        setUser(null);
+        setLoading(false);
+        
+        // Redirect to login after delay
+        window.location.href = '/login';
+      }, 1000); // 1 second delay
+    } else {
+      alert('Logout failed: ' + result.message);
+      setLoading(false);
+    }
+  } catch (error) {
+    console.error('Logout error:', error);
+    setLoading(false);
+  }
+};
           
           const value:AuthContextType = {
             user,

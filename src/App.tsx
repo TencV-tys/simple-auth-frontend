@@ -1,29 +1,45 @@
-import { useState } from "react";
-import LoginForm from "./AuthComponents/LoginForm"
-import SignUpForm from "./AuthComponents/SignUpForm";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 
-
-export default function App(){
-   const [isLogin, setIsLogin] = useState(true);
-
-
-return(
-  <>
-     <section>
-          <div>Auth App</div>
-                 
-                 <div>
-                       <button onClick={()=> setIsLogin(true)}>Login</button>
-                       <button onClick={()=>setIsLogin(false)}>Sign Up</button>
-                 </div>
-              
-              {isLogin? <LoginForm/> : <SignUpForm/>}
-
-              <p>Check browser console for form data</p>
-          
-     </section>
-  </>
-)
-
-
+import ProtectedRoute from './AuthComponents/ProtectedRoute';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignUpPage';
+import UserDashboard from './pages/UserDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import HomePage from './pages/HomePage';
+import Navbar from './pages/NavBar';
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <div className="App">
+             <Navbar/>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            
+            {/* Protected routes */}
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <UserDashboard />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin" element={
+              <ProtectedRoute requiredRole="ADMIN">
+                <AdminDashboard />
+              </ProtectedRoute>
+            } />
+            
+            {/* Redirect unknown routes */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
+  );
 }
+
+export default App;
