@@ -20,7 +20,8 @@ export class AdminServices{
 
                     return{
                         success:true,
-                        message:result.message
+                        message:result.message,
+                        user:result.user
                     }
 
 

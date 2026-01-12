@@ -65,9 +65,7 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
 const logout = async () => { 
   try {
     setLoading(true); // Show loading
-    
-    // Optional: Show "Logging out..." message
-    // setMessage('Logging out...');
+
     
     const result = await AuthService.logout();
     
