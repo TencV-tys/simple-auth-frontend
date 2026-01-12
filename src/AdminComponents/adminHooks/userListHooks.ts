@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
 import { AdminServices } from '../../services/adminServices';
-import { AuthService } from '../../services/authService';
+
 
 interface User{
     id:number;
@@ -27,15 +27,20 @@ interface User{
                 const result = await AdminServices.getAllUsers();
                 
                 if(result.success){
-                    setUsers(result.user);
+                    setUsers(result.user || []);
                 }else{
                     setMessage(`No users: ${result.message}`);
+                    setUsers([]);
                 }
                 
 
                }catch(e){
                 console.error(e);
                 setMessage(`Unexpected shits happening: ${e}`);
+                setUsers([]);
+
+               }finally{
+                setLoading(false);
                }
 
 

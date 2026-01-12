@@ -5,7 +5,7 @@ export default function UserLists(){
          loading,
          message,
          handleDelete,
-         fetchUsers,
+         fetchUsers, 
          formatDate
      } = UserListHooks();
 
@@ -70,7 +70,7 @@ export default function UserLists(){
                   <td style={{ padding: '12px', border: '1px solid #ddd' }}>{user.id}</td>
                   <td style={{ padding: '12px', border: '1px solid #ddd' }}>{user.name}</td>
                   <td style={{ padding: '12px', border: '1px solid #ddd' }}>{user.email}</td>
-                  <td style={{ padding: '12px', border: '1px solid #ddd' }}>
+                  <td style={{ padding: '12px', border: '1px solid #ddd' }}>{user.role}
                   </td>
                   <td style={{ padding: '12px', border: '1px solid #ddd' }}>
                     {formatDate(user.createdAt)}
