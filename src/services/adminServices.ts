@@ -2,10 +2,10 @@ const API_URL = 'http://localhost:3001/api/admin';
 
 export class AdminServices{
 
-            static async getAllUsers(){
+            static async getAllUsers(page:number = 1, limit:number = 10){
                   try{
                       
-                    const users = await fetch(`${API_URL}/users`,{
+                    const users = await fetch(`${API_URL}/users?page=${page}&limit=${limit}`,{
                         credentials:'include'
                     }); 
 
@@ -21,7 +21,8 @@ export class AdminServices{
                     return{
                         success:true,
                         message:result.message,
-                        user:result.user
+                        user:result.user,
+                        pagination:result.pagination
                     }
 
 
