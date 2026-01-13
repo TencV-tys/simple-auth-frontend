@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {useState,useEffect} from 'react';
 import { AdminServices } from '../../services/adminServices';
 
@@ -10,24 +10,53 @@ interface User{
     role:'USER' | 'ADMIN';
     createdAt:string;
 }
+
+interface PaginationInfo{
+    currentPage:number;
+    totalPages:number;
+    totalUsers:number;
+    hasNextPage:boolean;
+    hasPrevPage:boolean;
+}
+
  export function UserListHooks(){
             
     const [users,setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [message, setMessage] = useState<string>('');
+    const [pagination, setPagination] = useState<PaginationInfo>({
+        currentPage:1,
+        totalPages:1,
+        totalUsers:0,
+        hasNextPage:false,
+        hasPrevPage:false
+    })
+
+    const [itemsPerPage,setItemsPerPage] = useState<number>(10);
+    const [pageInput, setPageInput] = useState<string>('1');
+
 
     useEffect(()=>{
-        fetchUsers();
-    },[]);
+        fetchUsers(1, itemsPerPage);
+    },[itemsPerPage]);
 
 
-    const fetchUsers = async ()=>{
+    const fetchUsers = async (page:number =1, limit:number= itemsPerPage)=>{
                setLoading(true);
                try{
                 const result = await AdminServices.getAllUsers();
                 
                 if(result.success){
                     setUsers(result.user || []);
+                    setPagination(result.pagination || {
+                        currentPage:1,
+                        totalPages:1,
+                        totalUsers:0,
+                        hasNextPage:false,
+                        hasPrevPage:false
+                    })
+
+                    setPageInput(page.toString());
                 }else{
                     setMessage(`No users: ${result.message}`);
                     setUsers([]);
@@ -74,7 +103,15 @@ interface User{
       const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
+   const handlePageChange = (newPage:number) =>{
+    if(newPage < 1 || newPage > pagination.totalPages) return;
 
+    fetchUsers(newPage,itemsPerPage);
+   }
+
+   const handleItemsPerPageChange = (value:number) => {
+    setItemsPerPage(value);
+   }
           
     return{
         users, 
@@ -82,7 +119,13 @@ interface User{
         message,
         fetchUsers,
         handleDelete,
-        formatDate
+        formatDate,
+        handleItemsPerPageChange,
+        handlePageChange,
+        pagination,
+        itemsPerPage,
+        pageInput,
+        setPageInput
     }
 
  }
